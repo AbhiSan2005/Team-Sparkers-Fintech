@@ -9,10 +9,15 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Routes>
+<<<<<<< Updated upstream
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
       </Routes>
+=======
+        
+      </Routes> 
+>>>>>>> Stashed changes
     </div>
   )
 }
