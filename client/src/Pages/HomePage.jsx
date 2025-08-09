@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { ArrowRight, Shield, CreditCard, Smartphone, MessageCircle, Send } from "lucide-react";
+import about from "./AboutUs";
+import contact from './ContactUs'
 
 export default function HomePage() {
   const [isChatOpen, setIsChatOpen] = useState(false);
