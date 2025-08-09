@@ -33,6 +33,9 @@ export default function MainNavbar() {
           <li>
             <Link to="/careers" className="hover:text-yellow-400 transition">Careers</Link>
           </li>
+          <li>
+            <Link to="/branch-locator" className="hover:text-yellow-400 transition">Branch Locator</Link>
+          </li>
         </ul>
       </div>
     </nav>
