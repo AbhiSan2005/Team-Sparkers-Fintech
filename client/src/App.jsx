@@ -4,6 +4,9 @@ import HomePage from './Pages/HomePage';
 import AboutUs from './Pages/AboutUs';
 import ContactUs from './Pages/ContactUs';
 import LanguageSelector from './components/IndiaLanguageSelector';
+import LocateUs from './Pages/LocateUs';
+import Careers from './Pages/Carrer';
+
 
 function App() {
   return (
@@ -11,8 +14,10 @@ function App() {
       <Routes>
         <Route path="/" element={<LanguageSelector />} />
         <Route path="/home-page" element={<HomePage />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/aboutus" element={<AboutUs />} /> 
+        <Route path="/contactus" element={<ContactUs />} /> 
+        <Route path="/locateus" element={<LocateUs />} /> 
+        <Route path="/careers" element={<Careers />} /> 
       </Routes>
     </div>
   )
