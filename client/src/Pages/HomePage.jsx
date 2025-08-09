@@ -55,7 +55,7 @@ export default function HomePage() {
         </div>
         <div className="flex-1 mt-10 md:mt-0">
           <img
-            src="https://www.bankofmaharashtra.in/writereaddata/bannerImages/hb1.jpg"
+            src="https://imgs.search.brave.com/_a8obmttQc2aQQJ87nigX8PMjZcolFB0JprQEn4_OAY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9wbGF5/LWxoLmdvb2dsZXVz/ZXJjb250ZW50LmNv/bS9QZ3NlNUZVY3pF/ekJqb1k1dTlveGJy/S0h5RU5vQndIVFF2/LVZhUVo2QkZyTHV2/c2pwLUpRNUNjdzBD/bjVlLUxWR284PXc0/MTYtaDIzNS1ydw"
             alt="Bank of Maharashtra"
             className="rounded-xl shadow-lg"
           />
