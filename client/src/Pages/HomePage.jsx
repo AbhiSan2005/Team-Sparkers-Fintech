@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { ArrowRight, Shield, CreditCard, Smartphone, MessageCircle, Send } from "lucide-react";
+import about from "./AboutUs";
+import contact from './ContactUs'
 
 export default function HomePage() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -30,9 +32,9 @@ export default function HomePage() {
       <header className="flex items-center justify-between px-6 py-4 bg-[#002D72] text-white shadow">
         <h1 className="text-2xl font-bold">Bank of Maharashtra</h1>
         <nav className="hidden md:flex space-x-6">
-          <a href="#features" className="hover:text-[#FFD700]">Features</a>
-          <a href="#about" className="hover:text-[#FFD700]">About</a>
-          <a href="#contact" className="hover:text-[#FFD700]">Contact</a>
+          <a href="features" className="hover:text-[#FFD700]">Features</a>
+          <a href="about" className="hover:text-[#FFD700]">About</a>
+          <a href="contact" className="hover:text-[#FFD700]">Contact</a>
         </nav>
         <button className="px-4 py-2 bg-[#FFD700] text-[#002D72] font-semibold rounded-lg hover:bg-yellow-400">
           Net Banking
