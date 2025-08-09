@@ -1,9 +1,31 @@
-import React from "react";
-import { ArrowRight, Shield, CreditCard, Smartphone } from "lucide-react";
+import React, { useState } from "react";
+import { ArrowRight, Shield, CreditCard, Smartphone, MessageCircle, Send } from "lucide-react";
 
 export default function HomePage() {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    { sender: "bot", text: "Hello! How can I help you today?" },
+  ]);
+  const [input, setInput] = useState("");
+
+  const handleSend = () => {
+    if (!input.trim()) return;
+
+    // Add user message
+    setMessages([...messages, { sender: "user", text: input }]);
+    setInput("");
+
+    // Simulated bot reply (replace with API call)
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        { sender: "bot", text: "Thank you for your query. Our team will assist you shortly." },
+      ]);
+    }, 1000);
+  };
+
   return (
-    <div className="bg-gray-50 text-gray-900 font-sans">
+    <div className="bg-gray-50 text-gray-900 font-sans relative">
       {/* Navbar */}
       <header className="flex items-center justify-between px-6 py-4 bg-[#002D72] text-white shadow">
         <h1 className="text-2xl font-bold">Bank of Maharashtra</h1>
@@ -19,7 +41,6 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="flex flex-col md:flex-row items-center px-6 py-16 max-w-7xl mx-auto">
-        {/* Text */}
         <div className="flex-1 space-y-6">
           <h2 className="text-4xl md:text-5xl font-bold leading-tight">
             Empowering Your Future with <span className="text-[#002D72]">Trust</span> & <span className="text-[#FFD700]">Security</span>
@@ -32,8 +53,6 @@ export default function HomePage() {
             Open an Account <ArrowRight size={20} />
           </button>
         </div>
-
-        {/* Image */}
         <div className="flex-1 mt-10 md:mt-0">
           <img
             src="https://www.bankofmaharashtra.in/writereaddata/bannerImages/hb1.jpg"
@@ -71,6 +90,50 @@ export default function HomePage() {
       <footer className="bg-[#002D72] text-gray-200 py-8 text-center">
         <p>© {new Date().getFullYear()} Bank of Maharashtra. All rights reserved.</p>
       </footer>
+
+      {/* Chatbot Floating Button */}
+      <button
+        onClick={() => setIsChatOpen(!isChatOpen)}
+        className="fixed bottom-6 right-6 bg-[#FFD700] text-[#002D72] p-4 rounded-full shadow-lg hover:bg-yellow-400 transition"
+      >
+        <MessageCircle size={28} />
+      </button>
+
+      {/* Chatbot Window */}
+      {isChatOpen && (
+        <div className="fixed bottom-20 right-6 w-80 bg-white border border-gray-300 rounded-lg shadow-lg flex flex-col overflow-hidden">
+          <div className="bg-[#002D72] text-white p-3 font-semibold">Bank Chat Assistant</div>
+          <div className="flex-1 p-3 space-y-2 overflow-y-auto h-64">
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`p-2 rounded-lg max-w-[80%] ${
+                  msg.sender === "user"
+                    ? "bg-[#FFD700] text-[#002D72] ml-auto"
+                    : "bg-gray-200 text-gray-900"
+                }`}
+              >
+                {msg.text}
+              </div>
+            ))}
+          </div>
+          <div className="flex border-t">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-1 p-2 outline-none"
+            />
+            <button
+              onClick={handleSend}
+              className="bg-[#002D72] text-white px-4 flex items-center justify-center hover:bg-blue-900"
+            >
+              <Send size={18} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
