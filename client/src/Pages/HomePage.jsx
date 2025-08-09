@@ -1,79 +1,76 @@
-import React, { useState } from "react";
-import { ArrowRight, Shield, CreditCard, Smartphone, MessageCircle, Send } from "lucide-react";
-import { Link } from "react-router-dom";
-import Navbar from "../Components/Navbar";
+import React from "react";
+import { ArrowRight, Shield, CreditCard, Smartphone } from "lucide-react";
+
+import MainNavbar from "../components/MainNavbar";
+import ServicesNavbar from "../components/ServicesNavbar";
+import ChatBotSidebar from "../components/ChatBotSideBar";
 
 export default function HomePage() {
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { sender: "bot", text: "Hello! How can I help you today?" },
-  ]);
-  const [input, setInput] = useState("");
-
-  const handleSend = () => {
-    if (!input.trim()) return;
-
-    // Add user message
-    setMessages([...messages, { sender: "user", text: input }]);
-    setInput("");
-
-    // Simulated bot reply (replace with API call)
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: "Thank you for your query. Our team will assist you shortly." },
-      ]);
-    }, 1000);
-  };
-
   return (
     <div className="bg-gray-50 text-gray-900 font-sans relative">
-      {/* Navbar */}
-      <Navbar/>
+      
+      {/* MAIN NAVBAR */}
+      <MainNavbar />
+
+      {/* SERVICES NAVBAR */}
+      <ServicesNavbar />
+
+      <ChatBotSidebar/>
 
       {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center px-6 py-16 max-w-7xl mx-auto">
-        <div className="flex-1 space-y-6">
-          <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-            Empowering Your Future with <span className="text-[#002D72]">Trust</span> & <span className="text-[#FFD700]">Security</span>
-          </h2>
-          <p className="text-lg text-gray-600">
-            Bank of Maharashtra brings you secure, reliable, and innovative banking solutions.
-            Serving you with excellence since 1935.
-          </p>
-          <button className="flex items-center gap-2 px-6 py-3 bg-[#002D72] text-white rounded-lg text-lg hover:bg-blue-900">
-            Open an Account <ArrowRight size={20} />
-          </button>
-        </div>
-        <div className="flex-1 mt-10 md:mt-0">
-          <img
-            src="https://imgs.search.brave.com/_a8obmttQc2aQQJ87nigX8PMjZcolFB0JprQEn4_OAY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9wbGF5/LWxoLmdvb2dsZXVz/ZXJjb250ZW50LmNv/bS9QZ3NlNUZVY3pF/ekJqb1k1dTlveGJy/S0h5RU5vQndIVFF2/LVZhUVo2QkZyTHV2/c2pwLUpRNUNjdzBD/bjVlLUxWR284PXc0/MTYtaDIzNS1ydw"
-            alt="Bank of Maharashtra"
-            className="rounded-xl shadow-lg"
-          />
+      <section className="bg-gradient-to-r from-[#002D72] to-blue-600 text-white">
+        <div className="flex flex-col md:flex-row items-center px-6 py-20 max-w-7xl mx-auto">
+          {/* Left */}
+          <div className="flex-1 space-y-6">
+            <span className="text-sm uppercase tracking-wide text-yellow-300">
+              Welcome to Bank of Maharashtra
+            </span>
+            <h1 className="text-5xl md:text-6xl font-bold leading-tight">
+              Empowering Your Future with <span className="text-yellow-400">Trust</span> &{" "}
+              <span className="text-white">Security</span>
+            </h1>
+            <p className="text-lg text-gray-200 max-w-xl">
+              Secure. Reliable. Innovative. Banking that grows with you, serving customers since 1935.
+            </p>
+            <button className="flex items-center gap-3 px-7 py-3 bg-yellow-400 text-[#002D72] font-semibold rounded-lg text-lg shadow-lg hover:shadow-yellow-500 hover:scale-105 transition">
+              Open an Account <ArrowRight size={22} />
+            </button>
+          </div>
+
+          {/* Right */}
+          <div className="flex-1 mt-10 md:mt-0 flex justify-center">
+            <img
+              src="https://imgs.search.brave.com/_a8obmttQc2aQQJ87nigX8PMjZcolFB0JprQEn4_OAY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9wbGF5/LWxoLmdvb2dsZXVz/ZXJjb250ZW50LmNv/bS9QZ3NlNUZVY3pF/ekJqb1k1dTlveGJy/S0h5RU5vQndIVFF2/LVZhUVo2QkZyTHV2/c2pwLUpRNUNjdzBD/bjVlLUxWR284PXc0/MTYtaDIzNS1ydw"
+              alt="Bank of Maharashtra"
+              className="rounded-2xl shadow-lg border-4 border-white"
+            />
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="bg-white py-16">
+      <section id="features" className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <h3 className="text-3xl font-bold text-center mb-12 text-[#002D72]">Our Key Services</h3>
-          <div className="grid gap-10 md:grid-cols-3">
-            <div className="flex flex-col items-center text-center p-6 border rounded-lg hover:shadow-lg transition">
-              <Shield className="text-[#002D72] mb-4" size={40} />
-              <h4 className="text-xl font-semibold mb-2">Safe & Secure</h4>
-              <p className="text-gray-600">Advanced encryption and security measures to protect your funds and personal data.</p>
-            </div>
-            <div className="flex flex-col items-center text-center p-6 border rounded-lg hover:shadow-lg transition">
-              <CreditCard className="text-[#002D72] mb-4" size={40} />
-              <h4 className="text-xl font-semibold mb-2">Digital Banking</h4>
-              <p className="text-gray-600">Seamless online banking experience for all your financial needs.</p>
-            </div>
-            <div className="flex flex-col items-center text-center p-6 border rounded-lg hover:shadow-lg transition">
-              <Smartphone className="text-[#002D72] mb-4" size={40} />
-              <h4 className="text-xl font-semibold mb-2">Mobile Banking App</h4>
-              <p className="text-gray-600">Bank on the go with our user-friendly mobile application.</p>
-            </div>
+          <h3 className="text-3xl font-bold text-center mb-14 text-[#002D72]">
+            Our Key Services
+          </h3>
+          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+            {[
+              { icon: Shield, title: "Safe & Secure", desc: "Advanced encryption and security measures to protect your funds and personal data." },
+              { icon: CreditCard, title: "Digital Banking", desc: "Seamless online banking experience for all your financial needs." },
+              { icon: Smartphone, title: "Mobile Banking App", desc: "Bank on the go with our user-friendly mobile application." },
+            ].map(({ icon: Icon, title, desc }, i) => (
+              <div
+                key={i}
+                className="flex flex-col items-center text-center p-8 border rounded-2xl bg-white shadow-sm hover:shadow-xl hover:scale-105 transition"
+              >
+                <div className="p-4 bg-blue-100 text-[#002D72] rounded-full mb-4">
+                  <Icon size={36} />
+                </div>
+                <h4 className="text-xl font-semibold mb-2">{title}</h4>
+                <p className="text-gray-600">{desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -82,50 +79,6 @@ export default function HomePage() {
       <footer className="bg-[#002D72] text-gray-200 py-8 text-center">
         <p>© {new Date().getFullYear()} Bank of Maharashtra. All rights reserved.</p>
       </footer>
-
-      {/* Chatbot Floating Button */}
-      <button
-        onClick={() => setIsChatOpen(!isChatOpen)}
-        className="fixed bottom-6 right-6 bg-[#FFD700] text-[#002D72] p-4 rounded-full shadow-lg hover:bg-yellow-400 transition"
-      >
-        <MessageCircle size={28} />
-      </button>
-
-      {/* Chatbot Window */}
-      {isChatOpen && (
-        <div className="fixed bottom-20 right-6 w-80 bg-white border border-gray-300 rounded-lg shadow-lg flex flex-col overflow-hidden">
-          <div className="bg-[#002D72] text-white p-3 font-semibold">Bank Chat Assistant</div>
-          <div className="flex-1 p-3 space-y-2 overflow-y-auto h-64">
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`p-2 rounded-lg max-w-[80%] ${
-                  msg.sender === "user"
-                    ? "bg-[#FFD700] text-[#002D72] ml-auto"
-                    : "bg-gray-200 text-gray-900"
-                }`}
-              >
-                {msg.text}
-              </div>
-            ))}
-          </div>
-          <div className="flex border-t">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
-              className="flex-1 p-2 outline-none"
-            />
-            <button
-              onClick={handleSend}
-              className="bg-[#002D72] text-white px-4 flex items-center justify-center hover:bg-blue-900"
-            >
-              <Send size={18} />
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

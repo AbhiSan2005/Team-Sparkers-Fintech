@@ -3,6 +3,8 @@ import React from 'react'
 import HomePage from './Pages/HomePage';
 import AboutUs from './Pages/AboutUs';
 import ContactUs from './Pages/ContactUs';
+import LocateUs from './Pages/LocateUs';
+import Careers from './Pages/Carrer';
 
 
 function App() {
@@ -10,9 +12,10 @@ function App() {
     <div className="min-h-screen bg-gray-50">
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* <Route path="/home" element={<HomePage />} /> */}
-        <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/aboutus" element={<AboutUs />} /> 
+        <Route path="/contactus" element={<ContactUs />} /> 
+        <Route path="/locateus" element={<LocateUs />} /> 
+        <Route path="/careers" element={<Careers />} /> 
       </Routes>
     </div>
   )
