@@ -9,7 +9,13 @@
     "install-all": "npm install && cd client && npm install && cd ../server && npm install"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "concurrently": "^8.2.2",
+=======
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+>>>>>>> a69ce2ac8135657e762c2f2e0557bad322490c80
     "nodemon": "^3.1.10"
   }
 }
