@@ -28,11 +28,12 @@ export default function HomePage() {
     <div className="bg-gray-50 text-gray-900 font-sans relative">
       {/* Navbar */}
       <header className="flex items-center justify-between px-6 py-4 bg-[#002D72] text-white shadow">
-        <h1 className="text-2xl font-bold">Bank of Maharashtra</h1>
-        <nav className="hidden md:flex space-x-6">
-          <a href="#features" className="hover:text-[#FFD700]">Features</a>
-          <a href="#about" className="hover:text-[#FFD700]">About</a>
-          <a href="#contact" className="hover:text-[#FFD700]">Contact</a>
+        {/* <h1 className="text-2xl font-bold">Bank of Maharashtra</h1> */}
+        <div className="logo"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThKagjoBjoLk3Lq42gWQjH01z9It4yWe1a1g&s" alt="" className="h-15 w-50"/></div>
+        <nav className="hidden md:flex space-x-6 w-250 border-2 p-2">
+          <a href="#home" className="hover:text-[#FFD700] p-3 border-2">Home</a>
+          <a href="#about" className="hover:text-[#FFD700] p-3 border-2">About</a>
+          <a href="#contact" className="hover:text-[#FFD700] p-3 border-2">Contact</a>
         </nav>
         <button className="px-4 py-2 bg-[#FFD700] text-[#002D72] font-semibold rounded-lg hover:bg-yellow-400">
           Net Banking
