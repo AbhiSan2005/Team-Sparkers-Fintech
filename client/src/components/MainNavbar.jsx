@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { MapPin } from 'lucide-react';
 
 export default function MainNavbar() {
   return (
@@ -34,7 +35,7 @@ export default function MainNavbar() {
             <Link to="/careers" className="hover:text-yellow-400 transition">Careers</Link>
           </li>
           <li>
-            <Link to="/branch-locator" className="hover:text-yellow-400 transition">Branch Locator</Link>
+            <Link to="/branch-locator" className="hover:text-yellow-400 transition"><MapPin /></Link>
           </li>
         </ul>
       </div>
