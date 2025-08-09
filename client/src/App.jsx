@@ -3,23 +3,19 @@ import React from 'react'
 import HomePage from './Pages/HomePage';
 import AboutUs from './Pages/AboutUs';
 import ContactUs from './Pages/ContactUs';
-
+import LanguageSelector from './components/IndiaLanguageSelector';
 
 function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Routes>
-<<<<<<< Updated upstream
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<LanguageSelector />} />
+        <Route path="/home-page" element={<HomePage />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
       </Routes>
-=======
-        
-      </Routes> 
->>>>>>> Stashed changes
     </div>
   )
 }
 
-export default App
+export default App;

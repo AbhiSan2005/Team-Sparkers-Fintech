@@ -23,10 +23,10 @@ const FirebaseContext = createContext(null);
 
 
 export const FirebaseProvider = () =>{
-    
+
     return (
-        <firebaseContext.Provider value={{}}>
+        <FirebaseContext.Provider value={{}}>
             {props.children}
-        </firebaseContext.Provider>
+        </FirebaseContext.Provider>
     );
 }
