@@ -1,21 +1,36 @@
-import React from "react";
-import { ArrowRight, Shield, CreditCard, Smartphone } from "lucide-react";
+import React, { useState } from "react";
+import { ArrowRight, Shield, CreditCard, Smartphone, Mic } from "lucide-react";
 
 import MainNavbar from "../components/MainNavbar";
 import ServicesNavbar from "../components/ServicesNavbar";
 import ChatBotSidebar from "../components/ChatBotSideBar";
+import VoiceAssistantSidebar from "../components/VoiceAssistantSidebar";
 
 export default function HomePage() {
+  const [isVoiceAssistantOpen, setIsVoiceAssistantOpen] = useState(false);
+
+  const handleVoiceAssistantToggle = () => {
+    setIsVoiceAssistantOpen(!isVoiceAssistantOpen);
+  };
+
   return (
     <div className="bg-gray-50 text-gray-900 font-sans relative">
-      
       {/* MAIN NAVBAR */}
       <MainNavbar />
 
       {/* SERVICES NAVBAR */}
       <ServicesNavbar />
 
-      <ChatBotSidebar/>
+      {/* Voice Assistant Sidebar */}
+      <VoiceAssistantSidebar
+        isOpen={isVoiceAssistantOpen}
+        onClose={() => setIsVoiceAssistantOpen(false)}
+      />
+
+      {/* Fixed Action Buttons */}
+      <div className="fixed right-6 bottom-6 z-30 flex flex-col gap-4">
+        <ChatBotSidebar />
+      </div>
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-[#002D72] to-blue-600 text-white">
@@ -26,11 +41,13 @@ export default function HomePage() {
               Welcome to Bank of Maharashtra
             </span>
             <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-              Empowering Your Future with <span className="text-yellow-400">Trust</span> &{" "}
+              Empowering Your Future with{" "}
+              <span className="text-yellow-400">Trust</span> &{" "}
               <span className="text-white">Security</span>
             </h1>
             <p className="text-lg text-gray-200 max-w-xl">
-              Secure. Reliable. Innovative. Banking that grows with you, serving customers since 1935.
+              Secure. Reliable. Innovative. Banking that grows with you, serving
+              customers since 1935.
             </p>
             <button className="flex items-center gap-3 px-7 py-3 bg-yellow-400 text-[#002D72] font-semibold rounded-lg text-lg shadow-lg hover:shadow-yellow-500 hover:scale-105 transition">
               Open an Account <ArrowRight size={22} />
@@ -56,9 +73,21 @@ export default function HomePage() {
           </h3>
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
             {[
-              { icon: Shield, title: "Safe & Secure", desc: "Advanced encryption and security measures to protect your funds and personal data." },
-              { icon: CreditCard, title: "Digital Banking", desc: "Seamless online banking experience for all your financial needs." },
-              { icon: Smartphone, title: "Mobile Banking App", desc: "Bank on the go with our user-friendly mobile application." },
+              {
+                icon: Shield,
+                title: "Safe & Secure",
+                desc: "Advanced encryption and security measures to protect your funds and personal data.",
+              },
+              {
+                icon: CreditCard,
+                title: "Digital Banking",
+                desc: "Seamless online banking experience for all your financial needs.",
+              },
+              {
+                icon: Smartphone,
+                title: "Mobile Banking App",
+                desc: "Bank on the go with our user-friendly mobile application.",
+              },
             ].map(({ icon: Icon, title, desc }, i) => (
               <div
                 key={i}
@@ -77,7 +106,9 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="bg-[#002D72] text-gray-200 py-8 text-center">
-        <p>© {new Date().getFullYear()} Bank of Maharashtra. All rights reserved.</p>
+        <p>
+          © {new Date().getFullYear()} Bank of Maharashtra. All rights reserved.
+        </p>
       </footer>
     </div>
   );
