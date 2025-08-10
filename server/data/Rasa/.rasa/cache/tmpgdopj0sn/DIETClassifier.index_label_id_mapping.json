@@ -1,0 +1,18 @@
+{
+  "0": "affirm",
+  "1": "bot_challenge",
+  "2": "branch_atm_locator",
+  "3": "check_balance",
+  "4": "debit_card",
+  "5": "deny",
+  "6": "goodbye",
+  "7": "greet",
+  "8": "loan_info",
+  "9": "local_language_support",
+  "10": "mobile_banking_activation",
+  "11": "mpin_reset",
+  "12": "recent_transactions",
+  "13": "rekyc_process",
+  "14": "safety_tips",
+  "15": "transfer_money"
+}

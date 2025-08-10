@@ -17,6 +17,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "firebase": "^12.1.0",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.538.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
