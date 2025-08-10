@@ -1,0 +1,31 @@
+version: "3.1"
+
+stories:
+- story: greet and check balance
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: check_balance
+  - action: utter_check_balance
+
+- story: loan inquiry
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: loan_info
+  - action: utter_loan_info
+
+- story: safety tips conversation
+  steps:
+  - intent: safety_tips
+  - action: utter_safety_tips
+
+- story: user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: bot challenge
+  steps:
+  - intent: bot_challenge
+  - action: utter_bot_challenge

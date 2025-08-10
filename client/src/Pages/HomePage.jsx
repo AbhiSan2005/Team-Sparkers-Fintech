@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { ArrowRight, Shield, CreditCard, Smartphone, Mic } from "lucide-react";
+import { ArrowRight, Shield, CreditCard, Smartphone } from "lucide-react";
 import { useTranslation } from '../context/TranslationContext.jsx';
-import { TranslationProvider, LanguageSelector, T } from '../context/TranslationContext.jsx';
-
+import { T } from '../context/TranslationContext.jsx';
+import { Link } from "react-router-dom";
 import MainNavbar from "../components/MainNavbar";
 import ServicesNavbar from "../components/ServicesNavbar";
-import ChatBotSidebar from "../components/ChatBotSideBar";
 import VoiceAssistantSidebar from "../components/VoiceAssistantSidebar";
 
 export default function HomePage() {
@@ -16,17 +15,17 @@ export default function HomePage() {
     setIsVoiceAssistantOpen(!isVoiceAssistantOpen);
   };
 
-  // Preload all page translations when language changes
+  // Preload translations
   useEffect(() => {
     if (currentLanguage !== 'en') {
       const pageTexts = [
         // Hero section
         "Welcome to Bank of Maharashtra",
-        "Empowering Your Future with",
-        "Trust",
+        "Get Help Anytime with",
+        "Our Customer Service Team",
         "Security", 
-        "Secure. Reliable. Innovative. Banking that grows with you, serving customers since 1935.",
-        "Open an Account",
+        "We’re here to assist you with all your banking needs, queries, and support — anytime, anywhere.",
+        "Customer Service",
         
         // Features section
         "Our Key Services",
@@ -106,11 +105,6 @@ export default function HomePage() {
         onClose={() => setIsVoiceAssistantOpen(false)}
       />
 
-      {/* Fixed Action Buttons */}
-      <div className="fixed right-6 bottom-6 z-30 flex flex-col gap-4">
-        <ChatBotSidebar />
-      </div>
-
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-[#002D72] to-blue-600 text-white">
         <div className="flex flex-col md:flex-row items-center px-6 py-20 max-w-7xl mx-auto">
@@ -120,20 +114,24 @@ export default function HomePage() {
               <T>Welcome to Bank of Maharashtra</T>
             </span>
             <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-              <T>Empowering Your Future with</T>{" "}
+              <T>Get Help Anytime with</T>{" "}
               <span className="text-yellow-400">
-                <T>Trust</T>
-              </span> &{" "}
-              <span className="text-white">
-                <T>Security</T>
+                <T>Our Customer Service Team</T>
               </span>
             </h1>
             <p className="text-lg text-gray-200 max-w-xl">
-              <T>Secure. Reliable. Innovative. Banking that grows with you, serving customers since 1935.</T>
+              <T>We’re here to assist you with all your banking needs, queries, and support — anytime, anywhere.</T>
             </p>
-            <button className="flex items-center gap-3 px-7 py-3 bg-yellow-400 text-[#002D72] font-semibold rounded-lg text-lg shadow-lg hover:shadow-yellow-500 hover:scale-105 transition">
-              <T>Open an Account</T> <ArrowRight size={22} />
-            </button>
+            <Link to="/customer-service" className="inline-flex items-center gap-3 px-7 py-3 bg-yellow-400 text-[#002D72] font-semibold rounded-lg text-lg shadow-lg hover:shadow-yellow-500 hover:scale-105 transition">
+              Customer Service
+            </Link>
+
+            {/* <a 
+              href="/customer-service"
+              className="inline-flex items-center gap-3 px-7 py-3 bg-yellow-400 text-[#002D72] font-semibold rounded-lg text-lg shadow-lg hover:shadow-yellow-500 hover:scale-105 transition"
+            >
+              <T>Customer Service</T> <ArrowRight size={22} />
+            </a> */}
           </div>
 
           {/* Right */}
@@ -226,7 +224,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Call to Action Section */}
+      {/* CTA Section */}
       <section className="bg-gradient-to-r from-blue-600 to-[#002D72] text-white py-16">
         <div className="max-w-4xl mx-auto text-center px-6">
           <h3 className="text-3xl font-bold mb-4">

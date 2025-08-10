@@ -1,0 +1,109 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hello
+    - hi
+    - good morning
+    - hey
+    - greetings
+    - hello Bank of Maharashtra
+
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - see you later
+    - have a nice day
+    - farewell
+
+- intent: check_balance
+  examples: |
+    - What is my account balance?
+    - Show my current balance
+    - How much money do I have in my account?
+    - Balance inquiry
+    - Check balance
+
+- intent: recent_transactions
+  examples: |
+    - Show me my recent transactions
+    - I want to see my last few transactions
+    - Transaction history
+    - Mini statement
+
+- intent: transfer_money
+  examples: |
+    - How do I transfer money?
+    - I want to send money via NEFT
+    - Help me with UPI transfer
+    - Instructions for RTGS
+
+- intent: loan_info
+  examples: |
+    - Tell me about loan eligibility
+    - What documents do I need for a Kisan Credit Card loan?
+    - How can I apply for an agricultural loan?
+    - Details on loans
+
+- intent: mobile_banking_activation
+  examples: |
+    - How do I activate mobile banking?
+    - Help me link Aadhaar to my account
+    - How to open a Fixed Deposit or Recurring Deposit?
+
+- intent: debit_card
+  examples: |
+    - How to activate my debit card?
+    - How to block my debit card?
+    - Tell me about debit card features
+
+- intent: local_language_support
+  examples: |
+    - Do you support Marathi language?
+    - Can I chat in Tamil?
+    - Is multilingual support available?
+
+- intent: safety_tips
+  examples: |
+    - How to avoid UPI fraud?
+    - Tips for secure PIN handling
+    - How to verify trusted merchants?
+
+- intent: rekyc_process
+  examples: |
+    - How do I complete Re-KYC?
+    - Steps to update my KYC details
+
+- intent: mpin_reset
+  examples: |
+    - How to reset MPIN?
+    - Help with MPIN reset via SMS
+
+- intent: branch_atm_locator
+  examples: |
+    - Where is the nearest branch or ATM?
+    - Find Bank of Maharashtra branch near me
+    - Locate ATM by my PIN code
+
+- intent: affirm
+  examples: |
+    - yes
+    - sure
+    - absolutely
+    - of course
+
+- intent: deny
+  examples: |
+    - no
+    - nope
+    - don't think so
+    - not really
+
+- intent: bot_challenge
+  examples: |
+    - Are you a bot?
+    - Are you human?
+    - Am I talking to a bot?
+    - Are you real?
