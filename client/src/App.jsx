@@ -7,6 +7,7 @@ import VoiceAssistantSidebar from './components/VoiceAssistantSidebar';
 import HomePage from './Pages/HomePage';
 import AboutUs from './Pages/AboutUs';
 import ContactUs from './Pages/ContactUs';
+import BranchLocator from './Pages/BranchLocator';
 import LocateUs from './Pages/LocateUs';
 import Careers from './Pages/Carrer';
 
@@ -19,7 +20,8 @@ function App() {
           <Route path="/home-page" element={<HomePage />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
-          <Route path="/locateus" element={<LocateUs />} />
+          <Route path="/branchlocator" element={<BranchLocator />} />
+          <Route path="/locateus" element={<BranchLocator />} />
           <Route path="/careers" element={<Careers />} />
         </Routes>
         <VoiceAssistantSidebar />
