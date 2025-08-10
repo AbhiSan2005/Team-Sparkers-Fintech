@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { TranslationProvider } from './context/TranslationContext';
-
+import BranchLocator from './Pages/BranchLocator';
 import LanguageSelector from './components/IndiaLanguageSelector';
 import VoiceAssistantSidebar from './components/VoiceAssistantSidebar';
 import HomePage from './Pages/HomePage';
@@ -21,6 +21,8 @@ function App() {
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/locateus" element={<LocateUs />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/branchlocator" element={<BranchLocator />} />
+
         </Routes>
         <VoiceAssistantSidebar />
       </div>
