@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import { useTranslation, T } from '../context/TranslationContext.jsx';
 import MainNavbar from '../components/MainNavbar';
 import ServicesNavbar from '../components/ServicesNavbar';
 
@@ -22,6 +23,41 @@ import ServicesNavbar from '../components/ServicesNavbar';
 */
 
 export default function ContactUs() {
+  const { currentLanguage, preloadTranslations, updateKey } = useTranslation();
+
+  // Preload Contact Us page translations when language changes
+  useEffect(() => {
+    if (currentLanguage !== 'en') {
+      const contactUsTexts = [
+        // Hero section
+        "Contact Us",
+        "We're here to help. Reach out via phone, email, WhatsApp, or visit our branches.",
+        
+        // Contact methods
+        "Call Us",
+        "Email Us",
+        "WhatsApp Banking",
+        "Send",
+        "Hi",
+        "to",
+        "Head Office",
+        
+        // Contact details
+        "Toll-Free:",
+        "Landline:",
+        "Phone:",
+        "Fax:",
+        "Bank of Maharashtra Central Office,",
+        "Lokmangal, 1501, Shivajinagar, Pune - 411005",
+        
+        // Footer
+        "Bank of Maharashtra. All rights reserved."
+      ];
+      
+      preloadTranslations(contactUsTexts);
+    }
+  }, [currentLanguage, preloadTranslations]);
+
   const cardClass =
     "bg-white rounded-2xl shadow-lg p-8 border border-blue-100 " +
     "hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.03] transition-all duration-400 cursor-pointer animate-fadeInUp";
@@ -34,10 +70,10 @@ export default function ContactUs() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-[#002D72] to-blue-600 shadow-lg py-20 px-6 text-center max-w-5xl mx-auto rounded-b-3xl mt-8">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 text-yellow-400 drop-shadow-lg">
-          Contact Us
+          <T>Contact Us</T>
         </h1>
         <p className="text-lg md:text-xl max-w-2xl mx-auto text-yellow-100 font-medium drop-shadow-md">
-          We're here to help. Reach out via phone, email, WhatsApp, or visit our branches.
+          <T>We're here to help. Reach out via phone, email, WhatsApp, or visit our branches.</T>
         </p>
       </section>
 
@@ -49,12 +85,14 @@ export default function ContactUs() {
             <div className="p-4 bg-yellow-400 rounded-full text-[#002D72] shadow-md">
               <Phone size={28} />
             </div>
-            <h2 className="text-2xl font-bold text-[#002D72]">Call Us</h2>
+            <h2 className="text-2xl font-bold text-[#002D72]">
+              <T>Call Us</T>
+            </h2>
           </div>
           <p className="text-gray-800 leading-relaxed">
-            Toll-Free: <a href="tel:18002334526" className="underline hover:text-[#002D72]">1800 233 4526</a>,{' '}
+            <T>Toll-Free:</T> <a href="tel:18002334526" className="underline hover:text-[#002D72]">1800 233 4526</a>,{' '}
             <a href="tel:18001022636" className="underline hover:text-[#002D72]">1800 102 2636</a><br />
-            Landline: 020-24480797, 020-24504118, 020-24504117
+            <T>Landline:</T> 020-24480797, 020-24504118, 020-24504117
           </p>
         </div>
 
@@ -64,7 +102,9 @@ export default function ContactUs() {
             <div className="p-4 bg-yellow-400 rounded-full text-[#002D72] shadow-md">
               <Mail size={28} />
             </div>
-            <h2 className="text-2xl font-bold text-[#002D72]">Email Us</h2>
+            <h2 className="text-2xl font-bold text-[#002D72]">
+              <T>Email Us</T>
+            </h2>
           </div>
           <p className="text-gray-800 leading-relaxed">
             <a href="mailto:mahaconnect@mahabank.co.in" className="underline hover:text-[#002D72]">
@@ -79,10 +119,12 @@ export default function ContactUs() {
             <div className="p-4 bg-yellow-400 rounded-full text-[#002D72] shadow-md">
               <MessageCircle size={28} />
             </div>
-            <h2 className="text-2xl font-bold text-[#002D72]">WhatsApp Banking</h2>
+            <h2 className="text-2xl font-bold text-[#002D72]">
+              <T>WhatsApp Banking</T>
+            </h2>
           </div>
           <p className="text-gray-800 leading-relaxed">
-            Send <strong className="text-yellow-400">"Hi"</strong> to{' '}
+            <T>Send</T> <strong className="text-yellow-400">"<T>Hi</T>"</strong> <T>to</T>{' '}
             <a href="https://wa.me/917066036640" className="underline hover:text-[#002D72]">
               +91 70660 36640
             </a>
@@ -95,19 +137,23 @@ export default function ContactUs() {
             <div className="p-4 bg-yellow-400 rounded-full text-[#002D72] shadow-md">
               <MapPin size={28} />
             </div>
-            <h2 className="text-2xl font-bold text-[#002D72]">Head Office</h2>
+            <h2 className="text-2xl font-bold text-[#002D72]">
+              <T>Head Office</T>
+            </h2>
           </div>
           <address className="not-italic text-gray-800 leading-relaxed space-y-2">
-            Bank of Maharashtra Central Office,<br />
-            Lokmangal, 1501, Shivajinagar, Pune - 411005<br />
-            Phone: 020-25532731, 733, 734, 735, 736<br />
-            Fax: 020-25532728
+            <T>Bank of Maharashtra Central Office,</T><br />
+            <T>Lokmangal, 1501, Shivajinagar, Pune - 411005</T><br />
+            <T>Phone:</T> 020-25532731, 733, 734, 735, 736<br />
+            <T>Fax:</T> 020-25532728
           </address>
         </div>
       </section>
 
       <footer className="bg-[#002D72] text-gray-200 py-6 text-center mt-16">
-        <p>© {new Date().getFullYear()} Bank of Maharashtra. All rights reserved.</p>
+        <p>
+          © {new Date().getFullYear()} <T>Bank of Maharashtra. All rights reserved.</T>
+        </p>
       </footer>
     </div>
   );

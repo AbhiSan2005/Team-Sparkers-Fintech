@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Mic, X, MicOff, Send } from "lucide-react";
+import { Mic, X, MicOff, Send, Volume2, VolumeX } from "lucide-react";
 
 export default function VoiceAssistantSidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,6 +7,7 @@ export default function VoiceAssistantSidebar() {
   const [transcript, setTranscript] = useState("");
   const [messages, setMessages] = useState([
     {
+      id: 1,
       sender: "bot",
       text: "Hello! I'm your AI voice assistant. How can I help you with your banking needs today?",
     },
@@ -17,6 +18,17 @@ export default function VoiceAssistantSidebar() {
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [audioChunks, setAudioChunks] = useState([]);
   const [recordingTimer, setRecordingTimer] = useState(null);
+  
+  // Text-to-speech state
+  const [isReading, setIsReading] = useState(null);
+  const [speechSynthesis, setSpeechSynthesis] = useState(null);
+
+  // Initialize speech synthesis
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      setSpeechSynthesis(window.speechSynthesis);
+    }
+  }, []);
 
   // Check backend health on component mount
   useEffect(() => {
@@ -40,8 +52,52 @@ export default function VoiceAssistantSidebar() {
       if (recordingTimer) {
         clearTimeout(recordingTimer);
       }
+      // Stop any ongoing speech
+      if (speechSynthesis) {
+        speechSynthesis.cancel();
+      }
     };
-  }, [recordingTimer]);
+  }, [recordingTimer, speechSynthesis]);
+
+  // Handle text-to-speech
+  const handleReadAloud = (messageId, text) => {
+    if (!speechSynthesis) {
+      alert("Text-to-speech is not supported in your browser");
+      return;
+    }
+
+    // If already reading this message, stop it
+    if (isReading === messageId) {
+      speechSynthesis.cancel();
+      setIsReading(null);
+      return;
+    }
+
+    // Stop any ongoing speech
+    speechSynthesis.cancel();
+
+    // Create new utterance
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+
+    // Set event listeners
+    utterance.onstart = () => {
+      setIsReading(messageId);
+    };
+
+    utterance.onend = () => {
+      setIsReading(null);
+    };
+
+    utterance.onerror = () => {
+      setIsReading(null);
+    };
+
+    // Start speaking
+    speechSynthesis.speak(utterance);
+  };
 
   // Handle voice recording
   const handleStartListening = async () => {
@@ -185,18 +241,18 @@ export default function VoiceAssistantSidebar() {
     }
 
     // Add user message
-    setMessages([...messages, { sender: "user", text: input }]);
+    const userMessage = { id: Date.now(), sender: "user", text: input };
+    setMessages(prev => [...prev, userMessage]);
     setInput("");
 
     // Simulate bot reply
     setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "bot",
-          text: "I understand your request. Let me help you with that banking information.",
-        },
-      ]);
+      const botMessage = {
+        id: Date.now() + 1,
+        sender: "bot",
+        text: "I understand your request. Let me help you with that banking information.Wikipedia is a free online encyclopedia that anyone can edit, and millions already have. Wikipedia's purpose is to benefit readers by presenting information on all branches of knowledge. Hosted by the Wikimedia Foundation, Wikipedia consists of freely editable content, with articles that usually contain numerous links guiding readers to more information. Written collaboratively by volunteers known as Wikipedians, Wikipedia articles can be edited by anyone with Internet access, except in limited cases in which editing is restricted to prevent disruption or vandalism. Since its creation on January 15, 2001, it has grown into the world's largest reference website, attracting over a billion visitors each month. Wikipedia currently has more than sixty-five million articles in more than 300 languages, including 7,036,720 articles in English, with 107,534 active contributors in the past month. Wikipedia's fundamental principles are summarized in its five pillars. While the Wikipedia community has developed many policies and guidelines, new editors do not need to be familiar with them before they start contributing.",
+      };
+      setMessages(prev => [...prev, botMessage]);
     }, 1000);
   };
 
@@ -237,9 +293,9 @@ export default function VoiceAssistantSidebar() {
 
             {/* Messages area */}
             <div className="flex-1 overflow-y-auto p-4">
-              {messages.map((message, index) => (
+              {messages.map((message) => (
                 <div
-                  key={index}
+                  key={message.id}
                   className={`mb-4 ${
                     message.sender === "user" ? "text-right" : "text-left"
                   }`}
@@ -253,6 +309,33 @@ export default function VoiceAssistantSidebar() {
                   >
                     {message.text}
                   </div>
+                  
+                  {/* Read aloud button for bot messages */}
+                  {message.sender === "bot" && (
+                    <div className="mt-2">
+                      <button
+                        onClick={() => handleReadAloud(message.id, message.text)}
+                        className={`flex items-center space-x-1 text-xs px-2 py-1 rounded-full transition-colors ${
+                          isReading === message.id
+                            ? "bg-red-100 text-red-600 hover:bg-red-200"
+                            : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                        }`}
+                        title={isReading === message.id ? "Stop reading" : "Read aloud"}
+                      >
+                        {isReading === message.id ? (
+                          <>
+                            <VolumeX className="h-3 w-3" />
+                            <span>Stop</span>
+                          </>
+                        ) : (
+                          <>
+                            <Volume2 className="h-3 w-3" />
+                            <span>Read aloud</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
