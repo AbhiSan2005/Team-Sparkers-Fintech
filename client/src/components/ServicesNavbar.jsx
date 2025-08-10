@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import { useTranslation, T } from '../context/TranslationContext.jsx';
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -9,82 +10,170 @@ import {
 } from "../components/ui/navigation-menu";
 
 const ServicesNavbar = () => {
+    const { currentLanguage, preloadTranslations } = useTranslation();
+
+    // Preload services navbar translations when language changes
+    useEffect(() => {
+        if (currentLanguage !== 'en') {
+            const servicesTexts = [
+                // Main menu items
+                "Personal",
+                "Corporate", 
+                "MSME",
+                "Agriculture",
+                "NRI Services",
+                "Treasury",
+                
+                // Personal submenu
+                "Savings Accounts",
+                "Current Accounts",
+                "Loans",
+                "Cards",
+                
+                // Corporate submenu
+                "Cash Management",
+                "Corporate Loans", 
+                "Trade Finance",
+                
+                // MSME submenu
+                "MSME Loans",
+                "Priority Sector Lending",
+                
+                // Agriculture submenu
+                "Kisan Credit Card",
+                "Agri Loans",
+                
+                // NRI Services submenu
+                "NRE/NRO Accounts",
+                "Remittance",
+                
+                // Treasury submenu
+                "Forex",
+                "Investments"
+            ];
+            
+            preloadTranslations(servicesTexts);
+        }
+    }, [currentLanguage, preloadTranslations]);
+
     return (
         <div className="border-b p-3">
-            <NavigationMenu position="popper" className="container mx-auto px-6" >
+            <NavigationMenu position="popper" className="container mx-auto px-6">
                 <NavigationMenuList>
                     {/* Personal */}
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger>Personal</NavigationMenuTrigger>
+                        <NavigationMenuTrigger>
+                            <T>Personal</T>
+                        </NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <div className="p-4 grid gap-3 w-[250px]">
-                                <NavigationMenuLink className="hover:underline">Savings Accounts</NavigationMenuLink>
-                                <NavigationMenuLink className="hover:underline">Current Accounts</NavigationMenuLink>
-                                <NavigationMenuLink className="hover:underline">Loans</NavigationMenuLink>
-                                <NavigationMenuLink className="hover:underline">Cards</NavigationMenuLink>
+                                <NavigationMenuLink className="hover:underline">
+                                    <T>Savings Accounts</T>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink className="hover:underline">
+                                    <T>Current Accounts</T>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink className="hover:underline">
+                                    <T>Loans</T>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink className="hover:underline">
+                                    <T>Cards</T>
+                                </NavigationMenuLink>
                             </div>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
 
                     {/* Corporate */}
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger>Corporate</NavigationMenuTrigger>
+                        <NavigationMenuTrigger>
+                            <T>Corporate</T>
+                        </NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <div className="p-4 grid gap-3 w-[250px]">
-                                <NavigationMenuLink>Cash Management</NavigationMenuLink>
-                                <NavigationMenuLink>Corporate Loans</NavigationMenuLink>
-                                <NavigationMenuLink>Trade Finance</NavigationMenuLink>
+                                <NavigationMenuLink>
+                                    <T>Cash Management</T>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink>
+                                    <T>Corporate Loans</T>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink>
+                                    <T>Trade Finance</T>
+                                </NavigationMenuLink>
                             </div>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
 
                     {/* MSME */}
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger>MSME</NavigationMenuTrigger>
+                        <NavigationMenuTrigger>
+                            <T>MSME</T>
+                        </NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <div className="p-4 grid gap-3 w-[250px]">
-                                <NavigationMenuLink>MSME Loans</NavigationMenuLink>
-                                <NavigationMenuLink>Priority Sector Lending</NavigationMenuLink>
+                                <NavigationMenuLink>
+                                    <T>MSME Loans</T>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink>
+                                    <T>Priority Sector Lending</T>
+                                </NavigationMenuLink>
                             </div>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
 
                     {/* Agriculture */}
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger>Agriculture</NavigationMenuTrigger>
+                        <NavigationMenuTrigger>
+                            <T>Agriculture</T>
+                        </NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <div className="p-4 grid gap-3 w-[250px]">
-                                <NavigationMenuLink>Kisan Credit Card</NavigationMenuLink>
-                                <NavigationMenuLink>Agri Loans</NavigationMenuLink>
+                                <NavigationMenuLink>
+                                    <T>Kisan Credit Card</T>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink>
+                                    <T>Agri Loans</T>
+                                </NavigationMenuLink>
                             </div>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
 
                     {/* NRI Services */}
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger>NRI Services</NavigationMenuTrigger>
+                        <NavigationMenuTrigger>
+                            <T>NRI Services</T>
+                        </NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <div className="p-4 grid gap-3 w-[250px]">
-                                <NavigationMenuLink>NRE/NRO Accounts</NavigationMenuLink>
-                                <NavigationMenuLink>Remittance</NavigationMenuLink>
+                                <NavigationMenuLink>
+                                    <T>NRE/NRO Accounts</T>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink>
+                                    <T>Remittance</T>
+                                </NavigationMenuLink>
                             </div>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
 
                     {/* Treasury */}
                     <NavigationMenuItem>
-                        <NavigationMenuTrigger>Treasury</NavigationMenuTrigger>
+                        <NavigationMenuTrigger>
+                            <T>Treasury</T>
+                        </NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <div className="p-4 grid gap-3 w-[250px]">
-                                <NavigationMenuLink>Forex</NavigationMenuLink>
-                                <NavigationMenuLink>Investments</NavigationMenuLink>
+                                <NavigationMenuLink>
+                                    <T>Forex</T>
+                                </NavigationMenuLink>
+                                <NavigationMenuLink>
+                                    <T>Investments</T>
+                                </NavigationMenuLink>
                             </div>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
         </div>
-    )
-}
+    );
+};
 
-export default ServicesNavbar
+export default ServicesNavbar;

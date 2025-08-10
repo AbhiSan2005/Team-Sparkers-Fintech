@@ -4,175 +4,242 @@ import whisper
 import os
 import tempfile
 import logging
+import torch
+from faster_whisper import WhisperModel
+import time
 
-# Configure logging for debugging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 CORS(app)
 
-# Load Whisper model
-logger.info("Loading Whisper model...")
-try:
-    model = whisper.load_model("base")
-    logger.info("Whisper model loaded successfully")
-except Exception as e:
-    logger.error(f"Failed to load Whisper model: {str(e)}")
-    model = None
+# Enhanced model configuration
+class WhisperBackend:
+    def __init__(self):
+        self.model = None
+        self.model_type = "faster-whisper"  # Use faster-whisper for better performance
+        self.model_size = "medium"  # Balance between speed and accuracy
+        self.device = self._get_optimal_device()
+        self.supported_languages = self._load_supported_languages()
+        self._load_model()
+    
+    def _get_optimal_device(self):
+        """Determine the best device for processing"""
+        if torch.cuda.is_available():
+            return "cuda"
+        elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
+            return "mps"  # Apple Silicon
+        else:
+            return "cpu"
+    
+    def _load_supported_languages(self):
+        """Load supported languages list"""
+        # Whisper's top supported languages with their codes
+        return {
+            'en': 'English', 'zh': 'Chinese', 'de': 'German', 'es': 'Spanish',
+            'ru': 'Russian', 'ko': 'Korean', 'fr': 'French', 'ja': 'Japanese',
+            'pt': 'Portuguese', 'tr': 'Turkish', 'pl': 'Polish', 'ca': 'Catalan',
+            'nl': 'Dutch', 'ar': 'Arabic', 'sv': 'Swedish', 'it': 'Italian',
+            'id': 'Indonesian', 'hi': 'Hindi', 'fi': 'Finnish', 'vi': 'Vietnamese'
+        }
+    
+    def _load_model(self):
+        """Load the Whisper model with optimizations"""
+        try:
+            logger.info(f"Loading {self.model_type} model '{self.model_size}' on {self.device}")
+            
+            if self.model_type == "faster-whisper":
+                # Use faster-whisper for better performance
+                compute_type = "float16" if self.device == "cuda" else "int8"
+                self.model = WhisperModel(
+                    self.model_size, 
+                    device=self.device, 
+                    compute_type=compute_type,
+                    cpu_threads=4  # Optimize for CPU performance
+                )
+            else:
+                # Fallback to standard whisper
+                self.model = whisper.load_model(self.model_size, device=self.device)
+                
+            logger.info("Model loaded successfully")
+        except Exception as e:
+            logger.error(f"Failed to load model: {str(e)}")
+            self.model = None
+
+    def transcribe_audio(self, audio_path, language=None, task="transcribe", 
+                        temperature=0.0, word_timestamps=False, prompt=None):
+        """
+        Enhanced transcription with multiple options
+        
+        Args:
+            audio_path: Path to audio file
+            language: Target language code (auto-detect if None)
+            task: "transcribe" or "translate" (to English)
+            temperature: Controls randomness (0.0 = deterministic)
+            word_timestamps: Include word-level timestamps
+            prompt: Context prompt to improve accuracy
+        """
+        try:
+            start_time = time.time()
+            
+            if self.model_type == "faster-whisper":
+                segments, info = self.model.transcribe(
+                    audio_path,
+                    language=language,
+                    task=task,
+                    temperature=temperature,
+                    word_timestamps=word_timestamps,
+                    initial_prompt=prompt,
+                    vad_filter=True,  # Voice activity detection
+                    vad_parameters=dict(min_silence_duration_ms=500)
+                )
+                
+                # Extract results
+                text = " ".join([segment.text for segment in segments])
+                language_detected = info.language
+                confidence = info.language_probability
+                
+            else:
+                # Standard whisper
+                result = self.model.transcribe(
+                    audio_path,
+                    language=language,
+                    task=task,
+                    temperature=temperature,
+                    word_timestamps=word_timestamps,
+                    initial_prompt=prompt
+                )
+                
+                text = result['text']
+                language_detected = result['language']
+                confidence = 0.0  # Standard whisper doesn't provide confidence
+            
+            processing_time = time.time() - start_time
+            
+            return {
+                'success': True,
+                'text': text.strip(),
+                'language': language_detected,
+                'language_name': self.supported_languages.get(language_detected, 'Unknown'),
+                'confidence': confidence,
+                'task': task,
+                'processing_time': round(processing_time, 2)
+            }
+            
+        except Exception as e:
+            logger.error(f"Transcription failed: {str(e)}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
+
+# Initialize backend
+whisper_backend = WhisperBackend()
 
 @app.route('/health', methods=['GET'])
 def health_check():
-    logger.debug("Health check endpoint called")
+    """Enhanced health check with system info"""
     try:
         status = {
-            'status': 'healthy',
-            'whisper_model_loaded': model is not None,
-            'timestamp': str(os.times())
+            'status': 'healthy' if whisper_backend.model is not None else 'unhealthy',
+            'model_loaded': whisper_backend.model is not None,
+            'model_size': whisper_backend.model_size,
+            'device': whisper_backend.device,
+            'supported_languages_count': len(whisper_backend.supported_languages),
+            'cuda_available': torch.cuda.is_available(),
+            'timestamp': str(time.time())
         }
-        logger.info(f"Health check response: {status}")
         return jsonify(status)
     except Exception as e:
         logger.error(f"Health check failed: {str(e)}")
         return jsonify({'status': 'unhealthy', 'error': str(e)}), 500
 
+@app.route('/languages', methods=['GET'])
+def get_supported_languages():
+    """Get list of supported languages"""
+    return jsonify({
+        'supported_languages': whisper_backend.supported_languages,
+        'total_count': len(whisper_backend.supported_languages)
+    })
+
 @app.route('/transcribe', methods=['POST'])
 def transcribe_audio():
+    """Enhanced transcription endpoint with multiple options"""
     logger.info("=== TRANSCRIBE REQUEST START ===")
     
     try:
-        # Debug request info
-        logger.debug(f"Request method: {request.method}")
-        logger.debug(f"Request headers: {dict(request.headers)}")
-        logger.debug(f"Request files: {list(request.files.keys())}")
-        logger.debug(f"Request form: {dict(request.form)}")
-        
-        # Check if model is loaded
-        if model is None:
-            logger.error("Whisper model not loaded")
+        if whisper_backend.model is None:
             return jsonify({
                 'success': False,
                 'error': 'Whisper model not loaded'
             }), 500
         
-        # Check if audio file is in request
         if 'audio' not in request.files:
-            logger.error("No audio file in request")
             return jsonify({
                 'success': False,
                 'error': 'No audio file provided'
             }), 400
         
         audio_file = request.files['audio']
-        logger.info(f"Received audio file: {audio_file.filename}")
-        logger.debug(f"Audio file content type: {audio_file.content_type}")
-        logger.debug(f"Audio file size: {len(audio_file.read())} bytes")
-        audio_file.seek(0)  # Reset file pointer after reading size
         
-        if audio_file.filename == '':
-            logger.error("Empty filename in audio file")
-            return jsonify({
-                'success': False,
-                'error': 'No audio file selected'
-            }), 400
+        # Get optional parameters
+        target_language = request.form.get('language', None)  # Auto-detect if None
+        task = request.form.get('task', 'transcribe')  # transcribe or translate
+        word_timestamps = request.form.get('word_timestamps', 'false').lower() == 'true'
+        prompt = request.form.get('prompt', None)  # Context prompt for better accuracy
+        
+        logger.info(f"Parameters: language={target_language}, task={task}, timestamps={word_timestamps}")
         
         # Save temporary file
-        logger.debug("Creating temporary file...")
         with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as temp_file:
             temp_filename = temp_file.name
             audio_file.save(temp_filename)
-            logger.info(f"Audio saved to temporary file: {temp_filename}")
-            logger.debug(f"Temp file size: {os.path.getsize(temp_filename)} bytes")
+            logger.info(f"Audio saved: {os.path.getsize(temp_filename)} bytes")
         
         try:
-            # Transcribe audio
-            logger.info("Starting transcription with Whisper...")
-            result = model.transcribe(temp_filename)
-            logger.info("Transcription completed successfully")
+            # Transcribe with enhanced options
+            result = whisper_backend.transcribe_audio(
+                temp_filename,
+                language=target_language,
+                task=task,
+                word_timestamps=word_timestamps,
+                prompt=prompt
+            )
             
-            # Debug transcription results
-            logger.debug(f"Raw Whisper result keys: {result.keys()}")
-            logger.debug(f"Transcribed text: '{result['text']}'")
-            logger.debug(f"Language detected: {result.get('language', 'unknown')}")
-            
-            # Get confidence score (average of all segments)
-            segments = result.get('segments', [])
-            if segments:
-                confidence = sum(segment.get('avg_logprob', 0) for segment in segments) / len(segments)
-                confidence = max(0, min(1, (confidence + 1) / 2))  # Normalize to 0-1 range
-                logger.debug(f"Calculated confidence: {confidence}")
-            else:
-                confidence = 0.0
-                logger.warning("No segments found in transcription result")
-            
-            response_data = {
-                'success': True,
-                'text': result['text'].strip(),
-                'confidence': confidence,
-                'language': result.get('language', 'unknown'),
-                'segments_count': len(segments)
-            }
-            
-            logger.info(f"Transcription response: {response_data}")
-            return jsonify(response_data)
-            
-        except Exception as transcription_error:
-            logger.error(f"Transcription failed: {str(transcription_error)}")
-            logger.error(f"Transcription error type: {type(transcription_error)}")
-            return jsonify({
-                'success': False,
-                'error': f'Transcription failed: {str(transcription_error)}'
-            }), 500
+            logger.info(f"Transcription result: {result}")
+            return jsonify(result)
             
         finally:
-            # Clean up temporary file
-            try:
-                if os.path.exists(temp_filename):
-                    os.unlink(temp_filename)
-                    logger.debug(f"Temporary file deleted: {temp_filename}")
-            except Exception as cleanup_error:
-                logger.warning(f"Failed to delete temporary file: {str(cleanup_error)}")
+            # Clean up
+            if os.path.exists(temp_filename):
+                os.unlink(temp_filename)
     
     except Exception as e:
-        logger.error(f"General error in transcribe_audio: {str(e)}")
-        logger.error(f"Error type: {type(e)}")
-        import traceback
-        logger.error(f"Traceback: {traceback.format_exc()}")
+        logger.error(f"Error in transcribe_audio: {str(e)}")
         return jsonify({
             'success': False,
             'error': f'Server error: {str(e)}'
         }), 500
     
     finally:
-        logger.info("=== TRANSCRIBE REQUEST END ===\n")
+        logger.info("=== TRANSCRIBE REQUEST END ===")
 
-@app.route('/debug/info', methods=['GET'])
-def debug_info():
-    """Debug endpoint to check server status"""
-    logger.debug("Debug info endpoint called")
-    try:
-        import whisper
-        available_models = whisper.available_models()
-        
-        info = {
-            'whisper_available': True,
-            'whisper_models': list(available_models),
-            'current_model_loaded': model is not None,
-            'temp_dir': tempfile.gettempdir(),
-            'server_status': 'running'
-        }
-        logger.info(f"Debug info: {info}")
-        return jsonify(info)
-    except Exception as e:
-        logger.error(f"Debug info failed: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+@app.route('/translate', methods=['POST'])
+def translate_audio():
+    """Dedicated endpoint for translation to English"""
+    # Modify request to force translation task
+    original_task = request.form.get('task')
+    request.form = request.form.copy()
+    request.form['task'] = 'translate'
+    
+    return transcribe_audio()
 
 if __name__ == '__main__':
-    logger.info("Starting Flask voice backend server...")
-    logger.info("Server configuration:")
-    logger.info("- Host: localhost")
-    logger.info("- Port: 5001")
-    logger.info("- Debug mode: True")
-    logger.info("- CORS enabled for all origins")
+    logger.info("Starting enhanced multilingual voice backend...")
+    logger.info(f"Device: {whisper_backend.device}")
+    logger.info(f"Model: {whisper_backend.model_size}")
+    logger.info(f"Supported languages: {len(whisper_backend.supported_languages)}")
     
-    app.run(host='localhost', port=5001, debug=True)
+    app.run(host='localhost', port=5001, debug=True, threaded=True)
