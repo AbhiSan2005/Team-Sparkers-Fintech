@@ -1,7 +1,5 @@
-import { createContext } from "react";
+import React from "react";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-
 import { getDatabase, ref, set } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -15,18 +13,5 @@ const firebaseConfig = {
   measurementId: "G-X8YGERRJNP"
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
-const firebaseAuth = getAuth(firebaseApp);
-const analytics = getAnalytics(app);
-
-const FirebaseContext = createContext(null);
-
-
-export const FirebaseProvider = () =>{
-
-    return (
-        <FirebaseContext.Provider value={{}}>
-            {props.children}
-        </FirebaseContext.Provider>
-    );
-}
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
