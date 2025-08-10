@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { useTranslation, T } from '../context/TranslationContext.jsx';
 
 export default function MainNavbar() {
@@ -83,8 +84,8 @@ export default function MainNavbar() {
               </Link>
             </li>
             <li>
-              <Link to="/careers" className="hover:text-yellow-400 transition">
-                <T>Careers</T>
+              <Link to="/branchlocator" className="hover:text-yellow-400 transition">
+                <T> <MapPin /> </T>
               </Link>
             </li>
           </ul>
