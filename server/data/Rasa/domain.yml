@@ -1,0 +1,68 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - check_balance
+  - recent_transactions
+  - transfer_money
+  - loan_info
+  - mobile_banking_activation
+  - debit_card
+  - local_language_support
+  - safety_tips
+  - rekyc_process
+  - mpin_reset
+  - branch_atm_locator
+  - bot_challenge
+
+responses:
+  utter_greet:
+    - text: "Welcome to Bank of Maharashtra! How can I assist you today?"
+
+  utter_goodbye:
+    - text: "Thank you for choosing Bank of Maharashtra. Have a great day!"
+
+  utter_check_balance:
+    - text: "Your current account balance is ₹12,000."
+
+  utter_recent_transactions:
+    - text: "Here are your last five transactions: ..."
+
+  utter_transfer_money:
+    - text: "To transfer money via NEFT, log into the mobile app and select 'Fund Transfer'."
+
+  utter_loan_info:
+    - text: "You are eligible for a Kisan Credit Card if you meet the income criteria. Please prepare Aadhaar and land documents."
+
+  utter_mobile_banking_activation:
+    - text: "To activate mobile banking, download our app and register with your account details."
+
+  utter_debit_card:
+    - text: "You can activate or block your debit card via our app or branch."
+
+  utter_local_language_support:
+    - text: "Yes, our chatbot supports Marathi, Tamil, Telugu, Punjabi, Hindi, and English."
+
+  utter_safety_tips:
+    - text: "Never share your PIN. Only transact with trusted merchants to avoid fraud."
+
+  utter_rekyc_process:
+    - text: "You can update your KYC at the nearest branch or online portal."
+
+  utter_mpin_reset:
+    - text: "To reset MPIN, send 'MPIN RESET' to 567678 or use the mobile app."
+
+  utter_branch_atm_locator:
+    - text: "Please share your PIN code to find the nearest Bank of Maharashtra branch or ATM."
+
+  utter_bot_challenge:
+    - text: "I am a bot, here to help you with your banking needs."
+
+  utter_affirm:
+    - text: "Glad to help!"
+
+  utter_deny:
+    - text: "Okay, let me know if you need anything else."

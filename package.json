@@ -9,6 +9,12 @@
     "install-all": "npm install && cd client && npm install && cd ../server && npm install"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@types/node": "^24.2.1",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "react-router-dom": "^7.8.0"
   }
 }
