@@ -7,15 +7,15 @@ A Web-App developed during the 36-hour Finspark Hackathon organized by Bank of M
 A modern, multilingual fintech application tailored for the Bank of Maharashtra. Features include:
 
 -  **Multilingual Support**: English, Hindi, Marathi, Bengali, Telugu, Tamil, Kannada  
--  **AI-Powered Voice Assistant**: Speech-to-text (Whisper) and text-to-speech functionality  
+-  **AI-Powered Voice Assistant**: Speech-to-text and text-to-speech functionality  
 -  **Interactive Branch Locator**: Real-time maps showcasing 75+ Maharashtra branches  
 -  **Intelligent Chat Support**: 24/7 AI-powered chatbot  
 -  **Security & Accessibility**: Biometric authentication and WCAG-compliant UI
 
 ##  Tech Stack
 
-- **Frontend**: React 18, Vite, Tailwind CSS, Leaflet (maps)
-- **Backend**: Node.js & Express; Python Flask (for Whisper AI)
+- **Frontend**: React 18, Vite, Tailwind CSS, Leaflet
+- **Backend**: Node.js & Express; Python Flask
 - **Voice Tech**: OpenAI Whisper, Web Speech API
 
 ##  Local Development Setup
