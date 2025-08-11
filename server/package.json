@@ -25,6 +25,7 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
     "mysql2": "^3.14.3",
+    "openai-whisper": "^1.0.2",
     "python-shell": "^5.0.0",
     "uuid": "^11.1.0"
   },
