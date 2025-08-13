@@ -66,7 +66,7 @@ cd ../server
 python voice_backend.py
 ```
 
-##Team-Members: 
+## Team-Members: 
 1. **[Karan Ahuja](https://github.com/Karan-30506)**
 2. **[Dhruv Agarwal](https://github.com/MrPeculiar123)**
 3. **[Abhiraj Sankpal](https://github.com/AbhiSan2005)**
